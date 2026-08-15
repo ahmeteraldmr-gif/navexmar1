@@ -357,7 +357,7 @@
                 @foreach($services as $service)
                 <div class="home-service-card">
                     <div style="overflow: hidden;">
-                        <img src="{{ $service->image }}" alt="{{ $service->title }}" class="home-service-img">
+                        <img src="{{ Str::startsWith($service->image, 'http') ? $service->image : asset(ltrim($service->image, '/')) }}" alt="{{ $service->title }}" class="home-service-img">
                     </div>
                     <div class="home-service-body">
                         <h3 class="home-service-title">{{ $service->title }}</h3>
@@ -386,7 +386,7 @@
                 </a>
             </div>
             <div>
-                <img src="/images/strait_transit.jpg" alt="Boğaz Geçişi" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius-md);">
+                <img src="{{ asset('images/strait_transit.jpg') }}" alt="Boğaz Geçişi" style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius-md);">
             </div>
         </div>
     </div>

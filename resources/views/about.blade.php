@@ -40,7 +40,7 @@
             </div>
 
             <div>
-                <img src="/images/about_corporate.jpg" alt="NAVEXMAR Merkez Ofis" style="width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
+                <img src="{{ asset('images/about_corporate.jpg') }}" alt="NAVEXMAR Merkez Ofis" style="width: 100%; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md);">
             </div>
         </div>
 
@@ -72,16 +72,16 @@
         <div style="background: #FFFFFF; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 40px; text-align: center; box-shadow: var(--shadow-sm);">
             <h3 style="font-size: 1.4rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 24px;">Uluslararası Üyelikler & Sertifikalar</h3>
             <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <div style="background: var(--accent-soft-blue); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
+                <div style="background: var(--accent-soft); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
                     <i class="fa-solid fa-award"></i> BIMCO Full Member
                 </div>
-                <div style="background: var(--accent-soft-blue); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
+                <div style="background: var(--accent-soft); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
                     <i class="fa-solid fa-certificate"></i> FONASBA Quality Standard
                 </div>
-                <div style="background: var(--accent-soft-blue); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
+                <div style="background: var(--accent-soft); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
                     <i class="fa-solid fa-file-contract"></i> ISO 9001:2015 Quality Management
                 </div>
-                <div style="background: var(--accent-soft-blue); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
+                <div style="background: var(--accent-soft); border: 1px solid #BFDBFE; padding: 14px 28px; border-radius: 10px; font-weight: 700; color: var(--primary-blue);">
                     <i class="fa-solid fa-anchor"></i> İMEAK Deniz Ticaret Odası (DTO)
                 </div>
             </div>

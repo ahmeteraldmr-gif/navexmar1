@@ -4,6 +4,91 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-navy-950: #070F1E;
+    --color-navy-900: #0B192C;
+    --color-navy-800: #1E3E62;
+    --color-electric-600: #1D4ED8;
+    --color-electric-500: #2563EB;
+    --color-cyan-500: #0EA5E9;
 }
+
+:root {
+    --bg-body: #F8FAFC;
+    --bg-surface: #FFFFFF;
+    --primary-navy: #0B192C;
+    --primary-navy-light: #1E3E62;
+    --primary-blue: #1D4ED8;
+    --accent-blue: #2563EB;
+    --accent-cyan: #0EA5E9;
+    --accent-soft: #EFF6FF;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --text-light: #64748B;
+    --border-color: #E2E8F0;
+    --border-light: rgba(255, 255, 255, 0.12);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 24px;
+    --radius-full: 9999px;
+    --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.03);
+    --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-hover: 0 20px 40px rgba(29, 78, 216, 0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+    background: #94A3B8;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #64748B;
+}
+
+/* Utilities & Animations */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-dark {
+    background: rgba(11, 25, 44, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.glow-blue {
+    box-shadow: 0 0 25px rgba(29, 78, 216, 0.3);
+}
+
+.glow-cyan {
+    box-shadow: 0 0 25px rgba(14, 165, 233, 0.3);
+}
+
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+    animation: float-slow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.5; }
+    100% { transform: scale(0.95); opacity: 1; }
+}
+
+.pulse-active {
+    animation: pulse-ring 2s infinite ease-in-out;
+}
+

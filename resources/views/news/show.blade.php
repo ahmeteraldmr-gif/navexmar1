@@ -1,38 +1,60 @@
 @extends('layouts.app')
 
-@section('title', $news->title . ' - NAVEXMAR News')
+@section('title', ($news->title ?? 'Haber Detayı') . ' | NAVEXMAR')
+
+@php
+$newsFallbackImages = [
+    'turk-bogazlari-deniz-trafik-duzeni-tuzugu-guncellendi' => 'images/news_rules.jpg',
+    'ambarli-liman-baskanligi-su-cekimi-draft-limitleri'   => 'images/news_limits.jpg',
+    'navexmar-yesil-denizcilik-ve-karbon-emisyon-danismanligi' => 'images/news_green.jpg',
+];
+
+$nImg = null;
+if (!empty($news->image)) {
+    $nImg = asset(ltrim($news->image, '/'));
+} elseif (!empty($news->image_path)) {
+    $nImg = Storage::url($news->image_path);
+} elseif (isset($newsFallbackImages[$news->slug])) {
+    $nImg = asset($newsFallbackImages[$news->slug]);
+} else {
+    $nImg = asset('images/news_rules.jpg');
+}
+@endphp
 
 @section('content')
 
-    <div style="background: linear-gradient(135deg, #0F294A 0%, #1E3E62 100%); padding: 80px 0 60px; color: #FFF; text-align: center;">
-        <div class="container">
-            <div class="section-title-badge" style="background: rgba(255,255,255,0.15); color: #FFF; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-newspaper"></i> {{ $news->category }}</div>
-            <h1 class="section-heading" style="font-size: 2.5rem; max-width: 900px; margin: 0 auto 16px; color: #FFF;">{{ $news->title }}</h1>
-            <div style="color: #E2E8F0; font-size: 0.9rem;">Yayınlayan: {{ $news->author }} • {{ $news->published_at ? $news->published_at->format('d.m.Y H:i') : '' }}</div>
-        </div>
+<div class="page-hero">
+    <div class="container">
+        <div class="page-hero-badge"><i class="fa-solid fa-newspaper"></i> {{ $news->category ?? 'Haber & Duyuru' }}</div>
+        <h1>{{ $news->title }}</h1>
+        <p><i class="fa-regular fa-user" style="margin-right:4px;"></i> {{ $news->author ?? 'NAVEXMAR Operasyon' }} &nbsp;·&nbsp; <i class="fa-regular fa-calendar" style="margin-right:4px;"></i> {{ $news->created_at->format('d M Y') }}</p>
     </div>
+</div>
 
-    <div class="container" style="padding: 80px 0;">
-        <div style="max-width: 860px; margin: 0 auto;" class="white-card">
-            <img src="{{ $news->image }}" alt="{{ $news->title }}" style="width: 100%; height: 380px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 30px;">
+<section class="sec sec-alt">
+    <div class="container">
+        <div style="max-width: 860px; margin: 0 auto; background: white; border: 1px solid var(--border); border-radius: var(--r); padding: 36px; box-shadow: var(--shadow);">
             
-            <div style="font-size: 1.15rem; font-weight: 600; color: var(--primary-blue); margin-bottom: 24px; line-height: 1.6; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
-                {{ $news->summary }}
+            <div style="border-radius: var(--r); overflow: hidden; aspect-ratio: 16/9; margin-bottom: 28px; border: 1px solid var(--border);">
+                <img src="{{ $nImg }}" alt="{{ $news->title }}" style="width:100%; height:100%; object-fit:cover;" loading="lazy">
             </div>
+            
+            @if($news->summary ?? $news->short_description)
+            <div style="font-size: 1rem; font-weight: 600; color: var(--navy); margin-bottom: 24px; line-height: 1.65; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                {{ $news->summary ?? $news->short_description }}
+            </div>
+            @endif
 
-            <div style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; white-space: pre-line;">
+            <div style="color: var(--muted); font-size: 0.94rem; line-height: 1.8; white-space: pre-line;">
                 {{ $news->content }}
             </div>
 
-            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
-                <a href="{{ route('news.index') }}" style="color: var(--text-muted); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Tüm Duyurulara Dön</a>
-                <div>
-                    <span style="color: var(--text-light); font-size: 0.85rem; margin-right: 10px;">Paylaş:</span>
-                    <a href="#" style="color: var(--primary-blue); margin-right: 8px;"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="#" style="color: var(--accent-blue);"><i class="fa-brands fa-twitter"></i></a>
-                </div>
+            <div style="margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                <a href="{{ route('news.index') }}" class="btn-outline"><i class="fa-solid fa-arrow-left"></i> {{ __t('Tüm Haberler', 'All News') }}</a>
+                <a href="{{ route('contact') }}" class="btn-primary"><i class="fa-solid fa-envelope"></i> {{ __t('İletişime Geç', 'Contact Us') }}</a>
             </div>
         </div>
     </div>
+</section>
 
 @endsection

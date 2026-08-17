@@ -11,7 +11,7 @@
                 <tr>
                     <th>Gönderen</th>
                     <th>E-Posta & Tel</th>
-                    <th>Konu</th>
+                    <th>Konu / Hizmet</th>
                     <th>Tarih</th>
                     <th>Durum</th>
                     <th>İşlem</th>
@@ -20,15 +20,15 @@
             <tbody>
                 @forelse($messages as $msg)
                 <tr>
-                    <td><strong style="color:#FFF;">{{ $msg->name }}</strong></td>
-                    <td>{{ $msg->email }} <br><span style="font-size:0.8rem; color:var(--admin-muted);">{{ $msg->phone }}</span></td>
-                    <td>{{ $msg->subject }}</td>
+                    <td><strong style="color: var(--adm-text);">{{ $msg->name }}</strong></td>
+                    <td>{{ $msg->email }} <br><span style="font-size:0.78rem; color: var(--adm-muted);">{{ $msg->phone }}</span></td>
+                    <td><span style="font-weight:600; color: var(--adm-primary);">{{ $msg->subject }}</span></td>
                     <td>{{ $msg->created_at->format('d.m.Y H:i') }}</td>
                     <td>
                         @if($msg->is_read)
-                            <span style="color:var(--admin-muted);">Okundu</span>
+                            <span style="color: var(--adm-muted); font-size: 0.78rem;">Okundu</span>
                         @else
-                            <span style="color:#34D399; font-weight:700;">Okunmadı</span>
+                            <span style="background: #ECFDF5; color: #10B981; border: 1px solid #A7F3D0; padding: 2px 8px; border-radius: 99px; font-weight: 700; font-size: 0.75rem;">Okunmadı</span>
                         @endif
                     </td>
                     <td>
@@ -42,7 +42,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" style="text-align:center; color:var(--admin-muted);">Henüz mesaj bulunmuyor.</td>
+                    <td colspan="6" style="text-align:center; color: var(--adm-muted); padding: 32px;">Henüz gelen mesaj bulunmuyor.</td>
                 </tr>
                 @endforelse
             </tbody>

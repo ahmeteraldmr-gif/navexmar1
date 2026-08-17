@@ -1,166 +1,147 @@
 @extends('layouts.app')
+@section('title', 'Hizmetlerimiz | NAVEXMAR — Türk Boğazları Gemi Acenteliği')
 
-@section('title', 'Hizmetlerimiz - NAVEXMAR Gemi Acenteliği')
+@php
+$serviceImages = [
+    'gemi-acenteligi-liman-hizmetleri'   => 'images/svc_port_agency.jpg',
+    'turk-bogazlari-gecis-acenteligi'    => 'images/svc_strait_transit.jpg',
+    'yakit-ve-kumanya-ikmali'            => 'images/svc_bunkering.jpg',
+    'murettebat-degisimi-kara-lojistigi' => 'images/svc_crew_change.jpg',
+    'yuk-ve-konteyner-operasyonlari'     => 'images/svc_cargo.jpg',
+    'teknik-survey-bakim-onarim'         => 'images/svc_technical.jpg',
+    'teknik-ve-makine-destegi'           => 'images/svc_technical.jpg',
+];
+
+$serviceIcons = [
+    'gemi-acenteligi-liman-hizmetleri'   => 'fa-ship',
+    'turk-bogazlari-gecis-acenteligi'    => 'fa-water',
+    'yakit-ve-kumanya-ikmali'            => 'fa-gas-pump',
+    'murettebat-degisimi-kara-lojistigi' => 'fa-users',
+    'yuk-ve-konteyner-operasyonlari'     => 'fa-boxes-stacked',
+    'teknik-survey-bakim-onarim'         => 'fa-screwdriver-wrench',
+    'teknik-ve-makine-destegi'           => 'fa-screwdriver-wrench',
+];
+
+// Fallback image list (round-robin for unknown slugs)
+$fallbackImages = [
+    'images/svc_port_agency.jpg',
+    'images/svc_strait_transit.jpg',
+    'images/svc_bunkering.jpg',
+    'images/svc_crew_change.jpg',
+    'images/svc_cargo.jpg',
+    'images/svc_technical.jpg',
+];
+@endphp
 
 @section('styles')
 <style>
-    .service-card-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-    }
+.svc-list-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.svc-list-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+}
+.svc-list-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    border-color: #BBDEFB;
+}
+.svc-list-img {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    position: relative;
+}
+.svc-list-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+.svc-list-card:hover .svc-list-img img { transform: scale(1.05); }
 
-    .service-card {
-        background: #FFFFFF;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        display: flex;
-        flex-direction: column;
-    }
+.svc-list-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.svc-list-icon {
+    width: 40px; height: 40px;
+    background: var(--sky); border-radius: var(--r);
+    display: grid; place-items: center;
+    color: var(--blue); font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+.svc-list-title {
+    font-size: 0.96rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 8px;
+    line-height: 1.3;
+}
+.svc-list-desc {
+    font-size: 0.82rem; color: var(--muted);
+    line-height: 1.65; flex: 1; margin-bottom: 14px;
+}
+.svc-list-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--blue); font-size: 0.82rem; font-weight: 600;
+    transition: gap 0.2s;
+}
+.svc-list-link:hover { gap: 10px; }
 
-    .service-card:hover {
-        transform: translateY(-6px);
-        box-shadow: var(--shadow-hover);
-        border-color: #93C5FD;
-    }
-
-    .service-card-img-wrapper {
-        position: relative;
-        height: 210px;
-        overflow: hidden;
-    }
-
-    .service-card-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .service-card:hover .service-card-img-wrapper img {
-        transform: scale(1.06);
-    }
-
-    .service-card-badge {
-        position: absolute;
-        bottom: -22px;
-        right: 24px;
-        width: 46px;
-        height: 46px;
-        background: var(--primary-blue);
-        border: 3px solid #FFFFFF;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #FFFFFF;
-        font-size: 1.2rem;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    }
-
-    .service-card-body {
-        padding: 28px 24px 24px;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .service-card-title {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--primary-navy);
-        margin-bottom: 10px;
-    }
-
-    .service-card-text {
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        flex: 1;
-    }
-
-    .feature-tag-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-bottom: 20px;
-    }
-
-    .feature-tag {
-        background: var(--accent-soft);
-        color: var(--primary-blue);
-        font-size: 0.75rem;
-        font-weight: 600;
-        padding: 4px 10px;
-        border-radius: 6px;
-    }
-
-    .service-card-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: var(--primary-blue);
-        font-weight: 700;
-        font-size: 0.9rem;
-    }
-
-    .service-card:hover .service-card-btn i {
-        transform: translateX(4px);
-    }
-
-    @media (max-width: 992px) {
-        .service-card-grid { grid-template-columns: 1fr; }
-    }
+@media(max-width: 1024px) { .svc-list-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 640px)  { .svc-list-grid { grid-template-columns: 1fr; } }
 </style>
 @endsection
 
 @section('content')
-
-    <!-- Header Banner -->
-    <div style="background: linear-gradient(135deg, #0F294A 0%, #1E3E62 100%); padding: 70px 0 50px; color: #FFF; text-align: center;">
-        <div class="container">
-            <div class="section-title-badge" style="background: rgba(255,255,255,0.15); color: #FFF; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-ship"></i> Acentelik Çözümleri</div>
-            <h1 class="section-heading" style="font-size: 2.6rem; color: #FFF;">Profesyonel Hizmetlerimiz</h1>
-            <p class="section-description" style="margin: 0 auto; color: #E2E8F0;">Türk Boğazları ve Türkiye limanlarında 7/24 kesintisiz gemi acenteliği çözümleri.</p>
-        </div>
+<div class="page-hero">
+    <div class="container">
+        <div class="page-hero-badge"><i class="fa-solid fa-anchor"></i> {{ __t('Hizmetler', 'Services') }}</div>
+        <h1>{{ __t('Denizin Her Noktasında Yanınızdayız', 'With You at Every Point of the Sea') }}</h1>
+        <p>{{ __t('Türk Boğazları transit geçişinden liman operasyonlarına, bunkeringden mürettebat lojistiğine — eksiksiz deniz acenteliği.', 'From Turkish Straits transit clearance to port attendance, bunkering and crew logistics — full maritime agency.') }}</p>
     </div>
+</div>
 
-    <!-- Clean 3-Column Visual Grid -->
-    <div class="container" style="padding: 70px 0 90px;">
-        <div class="service-card-grid">
-            @foreach($services as $service)
-            <div class="service-card">
-                <div class="service-card-img-wrapper">
-                    <img src="{{ $service->image }}" alt="{{ $service->title }}">
-                    <div class="service-card-badge">
-                        <i class="fa-solid {{ $service->icon }}"></i>
-                    </div>
+<section class="sec sec-alt">
+    <div class="container">
+        <div class="svc-list-grid">
+            @forelse($services as $index => $service)
+            @php
+                $imgSrc = null;
+                if (!empty($service->image)) {
+                    $imgSrc = asset(ltrim($service->image, '/'));
+                } elseif (!empty($service->image_path)) {
+                    $imgSrc = Storage::url($service->image_path);
+                } elseif (isset($serviceImages[$service->slug])) {
+                    $imgSrc = asset($serviceImages[$service->slug]);
+                } else {
+                    $imgSrc = asset($fallbackImages[$index % count($fallbackImages)]);
+                }
+            @endphp
+            <div class="svc-list-card">
+                <div class="svc-list-img">
+                    <img src="{{ $imgSrc }}" alt="{{ $service->title }}" loading="lazy">
                 </div>
-                <div class="service-card-body">
-                    <h3 class="service-card-title">{{ $service->title }}</h3>
-                    <p class="service-card-text">{{ $service->summary }}</p>
-
-                    @if($service->features && count($service->features) > 0)
-                    <div class="feature-tag-list">
-                        @foreach(array_slice($service->features, 0, 3) as $ft)
-                            <span class="feature-tag"><i class="fa-solid fa-check"></i> {{ $ft }}</span>
-                        @endforeach
+                <div class="svc-list-body">
+                    <div class="svc-list-icon">
+                        <i class="fa-solid {{ $serviceIcons[$service->slug] ?? 'fa-anchor' }}"></i>
                     </div>
-                    @endif
-
-                    <div>
-                        <a href="{{ route('services.show', $service->slug) }}" class="service-card-btn">
-                            Detaylı İncele <i class="fa-solid fa-arrow-right" style="transition: transform 0.2s ease;"></i>
-                        </a>
-                    </div>
+                    <div class="svc-list-title">{{ $service->title }}</div>
+                    <div class="svc-list-desc">{{ Str::limit($service->short_description ?? $service->summary ?? $service->description, 120) }}</div>
+                    <a href="{{ route('services.show', $service->slug) }}" class="svc-list-link">
+                        {{ __t('Detaylı İncele', 'View Details') }} <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted);">
+                <i class="fa-solid fa-anchor" style="font-size:2.5rem;margin-bottom:14px;display:block;color:var(--blue);opacity:0.4;"></i>
+                <p>{{ __t('Hizmet bilgileri yükleniyor...', 'Loading services information...') }}</p>
+            </div>
+            @endforelse
         </div>
     </div>
-
+</section>
 @endsection

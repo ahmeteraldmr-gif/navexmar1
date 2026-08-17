@@ -1,0 +1,40 @@
+/* NAVEXMAR Main Stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
+
+:root {
+    --bg-body: #F8FAFC;
+    --bg-surface: #FFFFFF;
+    --primary-navy: #0B192C;
+    --primary-navy-light: #1E3E62;
+    --primary-blue: #1D4ED8;
+    --accent-blue: #2563EB;
+    --accent-cyan: #0EA5E9;
+    --accent-soft: #EFF6FF;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --text-light: #64748B;
+    --border-color: #E2E8F0;
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 24px;
+    --radius-full: 9999px;
+    --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.03);
+    --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-hover: 0 20px 40px rgba(29, 78, 216, 0.15);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.white-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.white-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+    border-color: #93C5FD;
+}

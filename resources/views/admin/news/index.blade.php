@@ -6,8 +6,8 @@
 @section('content')
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h3 style="font-weight: 700; color: #FFF;">Yayınlanan Duyurular</h3>
-        <a href="{{ route('admin.news.create') }}" class="btn-submit" style="text-decoration: none; font-size: 0.9rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--adm-text);">Yayınlanan Duyurular</h3>
+        <a href="{{ route('admin.news.create') }}" class="btn-submit">
             <i class="fa-solid fa-plus"></i> Yeni Duyuru Ekle
         </a>
     </div>
@@ -25,17 +25,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($newsList as $item)
+                @forelse($newsList as $item)
                 <tr>
-                    <td><strong style="color:#FFF;">{{ $item->title }}</strong></td>
-                    <td><span style="background:rgba(0,173,181,0.15); color:var(--admin-accent); padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.75rem;">{{ $item->category }}</span></td>
+                    <td><strong style="color: var(--adm-text);">{{ $item->title }}</strong></td>
+                    <td><span style="background: #EFF6FF; color: var(--adm-primary); border: 1px solid #BFDBFE; padding: 3px 10px; border-radius: 99px; font-weight: 700; font-size: 0.75rem;">{{ $item->category }}</span></td>
                     <td>{{ $item->author }}</td>
-                    <td>{{ $item->published_at ? $item->published_at->format('d.m.Y H:i') : '' }}</td>
+                    <td>{{ $item->published_at ? $item->published_at->format('d.m.Y H:i') : $item->created_at->format('d.m.Y H:i') }}</td>
                     <td>
                         @if($item->is_published)
-                            <span style="color:#34D399; font-weight:700;">Yayında</span>
+                            <span style="color: #059669; font-weight: 700; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 2px 8px; border-radius: 99px; font-size: 0.76rem;">Yayında</span>
                         @else
-                            <span style="color:#EF4444; font-weight:700;">Taslak</span>
+                            <span style="color: #D97706; font-weight: 700; background: #FEF3C7; border: 1px solid #FDE68A; padding: 2px 8px; border-radius: 99px; font-size: 0.76rem;">Taslak</span>
                         @endif
                     </td>
                     <td>
@@ -47,7 +47,11 @@
                         </form>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="6" style="text-align: center; color: var(--adm-muted); padding: 32px;">Henüz yayınlanmış duyuru bulunmuyor.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

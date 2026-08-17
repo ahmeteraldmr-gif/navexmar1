@@ -1,55 +1,81 @@
 @extends('layouts.app')
 
-@section('title', 'Filomuz & Operasyonlar - NAVEXMAR')
+@section('title', 'Filomuz & Operasyonlar | NAVEXMAR')
+
+@php
+$vesselFallbackImages = [
+    'images/vsl_container.jpg',
+    'images/vsl_tanker.jpg',
+    'images/vsl_bulk.jpg',
+    'images/vsl_roro.jpg',
+];
+@endphp
 
 @section('content')
 
-    <div style="background: linear-gradient(135deg, #0F294A 0%, #1E3E62 100%); padding: 80px 0 60px; color: #FFF; text-align: center;">
-        <div class="container">
-            <div class="section-title-badge" style="background: rgba(255,255,255,0.15); color: #FFF; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-water-ladder"></i> Acentelik Portföyü</div>
-            <h1 class="section-heading" style="font-size: 2.8rem; color: #FFF;">Hizmet Verilen Gemiler & Filomuz</h1>
-            <p class="section-description" style="margin: 0 auto; color: #E2E8F0;">Türk Boğazları ve limanlarında acenteliğini başarıyla yürüttüğümüz ticari gemiler ve yat operasyonları.</p>
-        </div>
+<div class="page-hero">
+    <div class="container">
+        <div class="page-hero-badge"><i class="fa-solid fa-ship"></i> {{ __t('Acentelik Portföyü', 'Agency Portfolio') }}</div>
+        <h1>{{ __t('Hizmet Verilen Gemiler & Filomuz', 'Attended Vessels & Fleet') }}</h1>
+        <p>{{ __t('Türk Boğazları ve Türkiye limanlarında acenteliğini başarıyla yürüttüğümüz ticari gemiler ve deniz operasyonları.', 'Commercial vessels and maritime operations successfully attended in Turkish Straits and all ports of Turkey.') }}</p>
     </div>
+</div>
 
-    <div class="container" style="padding: 80px 0;">
+<section class="sec sec-alt">
+    <div class="container">
         
         <!-- Filter Tabs -->
-        <div style="display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; justify-content: center;">
-            <a href="{{ route('vessels.index') }}" class="btn-secondary" style="{{ !request('type') || request('type') == 'all' ? 'background: var(--primary-blue); color: #FFF; border-color: var(--primary-blue);' : '' }}">Tümü</a>
+        @if(isset($vesselTypes) && count($vesselTypes) > 0)
+        <div style="display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; justify-content: center;">
+            <a href="{{ route('vessels.index') }}" class="port-tab {{ !request('type') || request('type') == 'all' ? 'active' : '' }}" style="text-decoration:none;">{{ __t('Tümü', 'All') }}</a>
             @foreach($vesselTypes as $type)
-                <a href="{{ route('vessels.index', ['type' => $type]) }}" class="btn-secondary" style="{{ request('type') == $type ? 'background: var(--primary-blue); color: #FFF; border-color: var(--primary-blue);' : '' }}">{{ $type }}</a>
+                <a href="{{ route('vessels.index', ['type' => $type]) }}" class="port-tab {{ request('type') == $type ? 'active' : '' }}" style="text-decoration:none;">{{ $type }}</a>
             @endforeach
         </div>
+        @endif
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-            @foreach($vessels as $vessel)
-            <div class="white-card" style="padding: 0; overflow: hidden;">
-                <div style="position: relative;">
-                    <img src="{{ $vessel->image }}" alt="{{ $vessel->name }}" style="width: 100%; height: 220px; object-fit: cover;">
-                    <span style="position: absolute; top: 16px; right: 16px; background: #FFFFFF; color: var(--primary-blue); padding: 4px 12px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; box-shadow: var(--shadow-sm);">
-                        {{ $vessel->status }}
-                    </span>
+        <div class="vessel-grid" style="grid-template-columns: repeat(3, 1fr);">
+            @forelse($vessels as $index => $vessel)
+            @php
+                $vslImg = null;
+                if (!empty($vessel->image)) {
+                    $vslImg = asset(ltrim($vessel->image, '/'));
+                } elseif (!empty($vessel->image_path)) {
+                    $vslImg = Storage::url($vessel->image_path);
+                } else {
+                    $vslImg = asset($vesselFallbackImages[$index % count($vesselFallbackImages)]);
+                }
+            @endphp
+            <div class="vessel-card">
+                <div class="vessel-img" style="aspect-ratio: 16/10;">
+                    <img src="{{ $vslImg }}" alt="{{ $vessel->name }}" loading="lazy">
                 </div>
-                <div style="padding: 24px;">
-                    <div style="font-size: 0.8rem; color: var(--text-light); text-transform: uppercase; font-weight: 700;">{{ $vessel->vessel_type }} • {{ $vessel->flag }}</div>
-                    <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-navy); margin: 6px 0 12px;">{{ $vessel->name }}</h3>
+                <div class="vessel-body">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <span class="vessel-type">{{ $vessel->vessel_type ?? $vessel->type ?? 'Gemi' }}</span>
+                        <span style="font-size: 0.68rem; font-weight: 700; color: var(--blue); background: var(--sky); padding: 2px 8px; border-radius: 4px;">{{ $vessel->status }}</span>
+                    </div>
+                    <div class="vessel-name" style="font-size: 1rem; margin-bottom: 10px;">{{ $vessel->name }}</div>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; background: #F8FAFC; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <div>IMO: <strong style="color: var(--text-main);">{{ $vessel->imo_number }}</strong></div>
-                        <div>GRT: <strong style="color: var(--text-main);">{{ number_format($vessel->grt) }}</strong></div>
-                        <div style="grid-column: span 2;">Son Liman: <strong style="color: var(--primary-blue);">{{ $vessel->last_port }}</strong></div>
+                    <div class="vessel-specs" style="background: var(--bg); padding: 10px 12px; border-radius: var(--r); margin-bottom: 12px; border: 1px solid var(--border);">
+                        <div class="vessel-spec"><strong>{{ $vessel->imo_number }}</strong>IMO No</div>
+                        <div class="vessel-spec"><strong>{{ number_format($vessel->grt) }}</strong>GRT</div>
+                        <div class="vessel-spec" style="grid-column: span 2;"><strong>{{ $vessel->last_port ?? 'Ambarlı' }}</strong>{{ __t('Son Liman', 'Last Port') }}</div>
                     </div>
 
-                    <p style="font-size: 0.85rem; color: var(--text-light); line-height: 1.5;">{{ $vessel->details }}</p>
+                    @if($vessel->details)
+                        <p style="font-size: 0.78rem; color: var(--muted); line-height: 1.5;">{{ Str::limit($vessel->details, 90) }}</p>
+                    @endif
                 </div>
             </div>
-            @endforeach
-        </div>
-
-        <div style="margin-top: 40px;">
-            {{ $vessels->links() }}
+            @empty
+            <div style="grid-column:1/-1; text-align:center; padding:60px 20px; color:var(--muted);">
+                <i class="fa-solid fa-ship" style="font-size:2.5rem; margin-bottom:14px; display:block; color:var(--blue); opacity:0.4;"></i>
+                <p>{{ __t('Kayıtlı gemi bulunamadı.', 'No vessels found.') }}</p>
+            </div>
+            @endforelse
         </div>
     </div>
+</section>
 
 @endsection

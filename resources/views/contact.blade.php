@@ -1,129 +1,235 @@
 @extends('layouts.app')
+@section('title', 'İletişim & Teklif | NAVEXMAR — Türk Boğazları Gemi Acenteliği')
 
-@section('title', 'İletişim & Acentelik Teklifi Al - NAVEXMAR')
+@section('styles')
+<style>
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 36px;
+    align-items: start;
+}
+.info-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+.info-card-title {
+    font-size: 0.95rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+}
+.info-card-title i { color: var(--blue); }
+
+.info-row {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin-bottom: 14px; font-size: 0.84rem;
+}
+.info-row:last-child { margin-bottom: 0; }
+.info-icon {
+    width: 32px; height: 32px;
+    background: var(--sky); border-radius: 6px;
+    display: grid; place-items: center;
+    color: var(--blue); font-size: 0.8rem; flex-shrink: 0;
+}
+.info-lbl { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+.info-val { color: var(--navy); font-weight: 600; line-height: 1.4; }
+.info-val a { color: var(--navy); transition: color 0.2s; }
+.info-val a:hover { color: var(--blue); }
+
+.vhf-row {
+    background: var(--navy); color: white;
+    border-radius: 6px; padding: 10px 14px;
+    font-size: 0.8rem; margin-top: 14px;
+    display: flex; align-items: center; gap: 10px;
+}
+.vhf-row i { color: #90CAF9; }
+
+.hours-row {
+    display: flex; justify-content: space-between;
+    font-size: 0.83rem; padding: 7px 0;
+    border-bottom: 1px dashed var(--border);
+}
+.hours-row:last-child { border-bottom: none; }
+
+.live-badge {
+    display: flex; align-items: center; gap: 6px;
+    background: #E8F5E9; color: #2E7D32;
+    padding: 8px 14px; border-radius: 6px;
+    font-size: 0.78rem; font-weight: 600; margin-top: 14px;
+}
+.live-dot {
+    width: 7px; height: 7px; background: #4CAF50;
+    border-radius: 50%; animation: blink 1.5s infinite;
+}
+
+/* Form Wrap */
+.form-wrap {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 32px;
+    box-shadow: var(--shadow);
+}
+.form-title { font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.form-sub { font-size: 0.83rem; color: var(--muted); margin-bottom: 24px; }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.field { margin-bottom: 16px; }
+.field label {
+    display: block; font-size: 0.74rem; font-weight: 700;
+    color: var(--navy); text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+.field input, .field select, .field textarea {
+    width: 100%; border: 1px solid var(--border); border-radius: 6px;
+    padding: 10px 14px; font-size: 0.86rem; font-family: 'Inter', sans-serif;
+    color: var(--text); background: var(--bg); outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--blue); background: white;
+}
+.field textarea { height: 110px; resize: vertical; }
+
+.alert-success {
+    padding: 12px 16px; border-radius: 6px; margin-bottom: 14px;
+    background: #E8F5E9; border: 1px solid #C8E6C9;
+    color: #2E7D32; font-size: 0.85rem;
+}
+.alert-error {
+    padding: 12px 16px; border-radius: 6px; margin-bottom: 14px;
+    background: #FFEBEE; border: 1px solid #FFCDD2;
+    color: #C62828; font-size: 0.85rem;
+}
+
+@media (max-width: 1024px) { .contact-layout { grid-template-columns: 1fr; } }
+@media (max-width: 640px)  { .field-row { grid-template-columns: 1fr; } }
+</style>
+@endsection
 
 @section('content')
-
-    <!-- Header Banner -->
-    <div style="background: linear-gradient(135deg, #0F294A 0%, #1E3E62 100%); padding: 80px 0 60px; color: #FFF; text-align: center;">
-        <div class="container">
-            <div class="section-title-badge" style="background: rgba(255,255,255,0.15); color: #FFF; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-headset"></i> 7/24 İletişim & Teklif</div>
-            <h1 class="section-heading" style="font-size: 2.8rem; color: #FFF;">Bize Ulaşın & Teklif İsteyin</h1>
-            <p class="section-description" style="margin: 0 auto; color: #E2E8F0;">Nöbetçi acente masamız 7 gün 24 saat tüm sorularınız ve acil operasyon talepleriniz için hazırdır.</p>
-        </div>
+<div class="page-hero">
+    <div class="container">
+        <div class="page-hero-badge"><i class="fa-solid fa-headset"></i> {{ __t('7/24 Operasyon Merkezi', '24/7 Duty Operations Center') }}</div>
+        <h1>{{ __t('İletişim & Teklif', 'Contact & Quote Requests') }}</h1>
+        <p>{{ __t('Gemi acenteliği, proforma teklifi veya acil operasyon desteği için bize ulaşın — 30 dakika içinde cevap garantisi.', 'Reach us for shipping agency attendance, proforma disbursement quotes or emergency attendance — 30 min response time.') }}</p>
     </div>
+</div>
 
-    <div class="container" style="padding: 80px 0;">
-        
-        <!-- Contact Cards Grid -->
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 60px;">
-            <div class="white-card" style="text-align: center;">
-                <i class="fa-solid fa-location-dot" style="font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 16px;"></i>
-                <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 8px;">Genel Merkez</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">{{ \App\Models\SiteSetting::get('address') }}</p>
-            </div>
-            <div class="white-card" style="text-align: center;">
-                <i class="fa-solid fa-phone-volume" style="font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 16px;"></i>
-                <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 8px;">Santral & 7/24 Nöbetçi</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Tel: {{ \App\Models\SiteSetting::get('phone') }}</p>
-                <p style="color: var(--primary-blue); font-weight: 700; font-size: 0.9rem; margin-top: 4px;">Acil: {{ \App\Models\SiteSetting::get('mobile') }}</p>
-            </div>
-            <div class="white-card" style="text-align: center;">
-                <i class="fa-solid fa-envelope-open-text" style="font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 16px;"></i>
-                <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 8px;">E-Posta & VHF</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">{{ \App\Models\SiteSetting::get('email') }}</p>
-                <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 4px;">VHF Ch 16 / Ch 71 (Istanbul Traffic)</p>
-            </div>
-        </div>
+<section class="sec sec-alt">
+    <div class="container">
+        <div class="contact-layout">
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
-            
-            <!-- Standard Contact Form -->
-            <div class="white-card">
-                <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 20px;"><i class="fa-solid fa-paper-plane" style="color: var(--primary-blue);"></i> İletişim Formu</h3>
-                
+            {{-- İletişim Bilgileri --}}
+            <div>
+                <div class="info-card">
+                    <div class="info-card-title"><i class="fa-solid fa-phone"></i> {{ __t('Telefon & E-posta', 'Phone & Email') }}</div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                        <div>
+                            <div class="info-lbl">{{ __t('Ofis Telefonu', 'Office Phone') }}</div>
+                            <div class="info-val"><a href="tel:+902124446283">+90 212 444 62 83</a></div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <div>
+                            <div class="info-lbl">{{ __t('Acil Nöbetçi Hattı', '24/7 Duty Hotline') }}</div>
+                            <div class="info-val"><a href="tel:+905327009090">+90 532 700 90 90</a></div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                        <div>
+                            <div class="info-lbl">{{ __t('E-posta', 'Email Address') }}</div>
+                            <div class="info-val"><a href="mailto:ops@navexmar.com">ops@navexmar.com</a></div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div>
+                            <div class="info-lbl">{{ __t('Adres', 'Office Address') }}</div>
+                            <div class="info-val">Marport Plaza K:8, Ambarlı Liman Yolu, Avcılar — İstanbul</div>
+                        </div>
+                    </div>
+                    <div class="vhf-row">
+                        <i class="fa-solid fa-tower-broadcast"></i>
+                        <span>VHF: <strong>Ch 16</strong> ({{ __t('Acil', 'Emergency') }}) · <strong>Ch 12</strong> (İstanbul) · <strong>Ch 11</strong> (Çanakkale)</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-card-title"><i class="fa-solid fa-clock"></i> {{ __t('Çalışma Saatleri', 'Office Hours') }}</div>
+                    <div class="hours-row"><span>{{ __t('Pazartesi – Cuma', 'Monday – Friday') }}</span><span>08:00 – 18:00</span></div>
+                    <div class="hours-row"><span>{{ __t('Cumartesi', 'Saturday') }}</span><span>09:00 – 14:00</span></div>
+                    <div class="hours-row"><span>{{ __t('Pazar & Resmi Tatil', 'Sunday & Holidays') }}</span><span style="color:var(--teal);">{{ __t('Nöbetçi Hizmeti', '24/7 Duty Team') }}</span></div>
+                    <div class="live-badge">
+                        <span class="live-dot"></span> {{ __t('Şu an 7/24 nöbetçimiz aktif', 'Active 24/7 duty team on station') }}
+                    </div>
+                </div>
+            </div>
+
+            {{-- Form --}}
+            <div class="form-wrap">
+                <div class="form-title"><i class="fa-solid fa-file-invoice-dollar" style="color:var(--blue);margin-right:7px;"></i> {{ __t('Teklif / Talep Formu', 'Inquiry & Quote Form') }}</div>
+                <div class="form-sub">{{ __t('Acentelik teklifi veya genel talep için formu doldurun. Uzman ekibimiz en kısa sürede geri dönecektir.', 'Fill in the form for agency quote requests or general inquiries. Our operations team will respond promptly.') }}</div>
+
                 @if(session('success'))
-                    <div style="background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; padding: 14px; border-radius: 8px; margin-bottom: 20px; font-weight: 600;">
-                        {{ session('success') }}
-                    </div>
+                    <div class="alert-success"><i class="fa-solid fa-circle-check"></i> {{ session('success') }}</div>
+                @endif
+                @if($errors->any())
+                    <div class="alert-error"><i class="fa-solid fa-triangle-exclamation"></i> {{ __t('Lütfen zorunlu alanları doldurunuz.', 'Please complete all required fields.') }}</div>
                 @endif
 
-                <form action="{{ route('contact.send') }}" method="POST">
+                <form action="{{ route('contact.send') }}" method="POST" novalidate>
                     @csrf
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; color: var(--text-main); font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">Ad Soyad</label>
-                        <input type="text" name="name" required style="width: 100%; padding: 12px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; color: var(--text-main);">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>{{ __t('Ad Soyad', 'Full Name') }} *</label>
+                            <input type="text" name="name" value="{{ old('name') }}" placeholder="John Smith" required>
+                        </div>
+                        <div class="field">
+                            <label>{{ __t('Şirket / Armatör', 'Company / Owner') }}</label>
+                            <input type="text" name="company" value="{{ old('company') }}" placeholder="ABC Shipping Ltd.">
+                        </div>
                     </div>
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; color: var(--text-main); font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">E-Posta Adresi</label>
-                        <input type="email" name="email" required style="width: 100%; padding: 12px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; color: var(--text-main);">
+                    <div class="field-row">
+                        <div class="field">
+                            <label>{{ __t('E-posta', 'Email Address') }} *</label>
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="ops@company.com" required>
+                        </div>
+                        <div class="field">
+                            <label>{{ __t('Telefon', 'Phone Number') }}</label>
+                            <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="+90 5xx xxx xx xx">
+                        </div>
                     </div>
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; color: var(--text-main); font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">Telefon</label>
-                        <input type="text" name="phone" style="width: 100%; padding: 12px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; color: var(--text-main);">
+                    <div class="field">
+                        <label>{{ __t('Hizmet Talebi', 'Service Requested') }} *</label>
+                        <select name="subject" required>
+                            <option value="">{{ __t('Seçiniz...', 'Select Service...') }}</option>
+                            <option value="Boğaz Transit Geçiş Acenteliği">{{ __t('Boğaz Transit Geçiş Acenteliği', 'Straits Transit Agency') }}</option>
+                            <option value="Liman Acenteliği">{{ __t('Liman Acenteliği', 'Port Agency Attendance') }}</option>
+                            <option value="Bunkering & Yakıt İkmali">{{ __t('Bunkering & Yakıt İkmali', 'Bunkering & Fuel Supply') }}</option>
+                            <option value="Mürettebat Değişimi">{{ __t('Mürettebat Değişimi', 'Crew Change Services') }}</option>
+                            <option value="Teknik Destek">{{ __t('Teknik Destek', 'Technical Support') }}</option>
+                            <option value="Proforma PDA Talebi">{{ __t('Proforma PDA Talebi', 'Proforma PDA Request') }}</option>
+                            <option value="Diğer">{{ __t('Diğer', 'Other Inquiry') }}</option>
+                        </select>
                     </div>
-                    <div style="margin-bottom: 16px;">
-                        <label style="display: block; color: var(--text-main); font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">Konu</label>
-                        <input type="text" name="subject" required style="width: 100%; padding: 12px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; color: var(--text-main);">
+                    <div class="field">
+                        <label>{{ __t('Talep & Mesaj', 'Inquiry Details & Message') }} *</label>
+                        <textarea name="message" placeholder="{{ __t('Tahmini varış tarihi, liman, gemi adı, GRT... detaylı bilgi veriniz.', 'ETA date, port, vessel name, GRT, draft, nature of call...') }}" required>{{ old('message') }}</textarea>
                     </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display: block; color: var(--text-main); font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">Mesajınız</label>
-                        <textarea name="message" rows="4" required style="width: 100%; padding: 12px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 8px; color: var(--text-main);"></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
-                        <i class="fa-solid fa-paper-plane"></i> Mesajı Gönder
+                    <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:12px;">
+                        <i class="fa-solid fa-paper-plane"></i> {{ __t('Talebi Gönder', 'Submit Inquiry') }}
                     </button>
                 </form>
             </div>
 
-            <!-- Quote Request Form CTA -->
-            <div id="quote-section" class="white-card" style="border-color: #BFDBFE; background: #F8FAFC;">
-                <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 10px;"><i class="fa-solid fa-calculator" style="color: var(--primary-blue);"></i> Acentelik / Proforma Maliyet Talebi</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">Geminiz Türk Boğazları geçişi veya liman yanaşması öncesinde proforma harç cetvelini anında talep edin.</p>
-
-                @if(session('quote_success'))
-                    <div style="background: #DCFCE7; border: 1px solid #86EFAC; color: #15803D; padding: 14px; border-radius: 8px; margin-bottom: 20px; font-weight: 600;">
-                        {{ session('quote_success') }}
-                    </div>
-                @endif
-
-                <form action="{{ route('quote.send') }}" method="POST">
-                    @csrf
-                    <div style="margin-bottom: 12px;">
-                        <input type="text" name="company_name" placeholder="Firma / Armatör Adı" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                        <input type="text" name="contact_person" placeholder="Yetkili İsim" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                        <input type="email" name="email" placeholder="E-Posta" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                        <input type="text" name="phone" placeholder="Telefon" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                        <input type="text" name="vessel_name" placeholder="Gemi Adı" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                    </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
-                        <select name="vessel_type" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                            <option value="Konteyner Gemisi">Konteyner Gemisi</option>
-                            <option value="Ham Petrol / Ürün Tankeri">Tanker</option>
-                            <option value="Dökme Yük (Bulk Carrier)">Dökme Yük</option>
-                            <option value="Ro-Ro">Ro-Ro</option>
-                        </select>
-                        <select name="port_or_strait" required style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);">
-                            <option value="İstanbul Boğazı Transit">İstanbul Boğazı</option>
-                            <option value="Çanakkale Boğazı Transit">Çanakkale Boğazı</option>
-                            <option value="Ambarlı Limanı">Ambarlı Limanı</option>
-                            <option value="İzmit Körfezi">İzmit Körfezi</option>
-                        </select>
-                    </div>
-                    <div style="margin-bottom: 16px;">
-                        <textarea name="notes" rows="2" placeholder="Özel talepler (Bunkering, Crew Change, vb.)..." style="width: 100%; padding: 10px; background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; color: var(--text-main);"></textarea>
-                    </div>
-                    <button type="submit" class="btn-quote" style="width: 100%; justify-content: center;">
-                        <i class="fa-solid fa-calculator"></i> Proforma İste
-                    </button>
-                </form>
-            </div>
         </div>
-
     </div>
-
+</section>
 @endsection

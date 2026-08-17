@@ -6,8 +6,8 @@
 @section('content')
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-        <h3 style="font-weight: 700; color: #FFF;">Portföydeki Gemiler</h3>
-        <a href="{{ route('admin.vessels.create') }}" class="btn-submit" style="text-decoration: none; font-size: 0.9rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--adm-text);">Portföydeki Gemiler</h3>
+        <a href="{{ route('admin.vessels.create') }}" class="btn-submit">
             <i class="fa-solid fa-plus"></i> Yeni Gemi Kaydı Ekle
         </a>
     </div>
@@ -26,14 +26,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($vessels as $vessel)
+                @forelse($vessels as $vessel)
                 <tr>
-                    <td><strong style="color:#FFF;">{{ $vessel->name }}</strong></td>
-                    <td>{{ $vessel->vessel_type }} <br><span style="font-size:0.8rem; color:var(--admin-muted);">{{ $vessel->flag }}</span></td>
+                    <td><strong style="color: var(--adm-text); font-weight: 700;">{{ $vessel->name }}</strong></td>
+                    <td>{{ $vessel->type ?? $vessel->vessel_type }} <br><span style="font-size:0.78rem; color: var(--adm-muted);">{{ $vessel->flag }}</span></td>
                     <td>{{ $vessel->imo_number }}</td>
                     <td>{{ number_format($vessel->grt) }}</td>
                     <td>{{ $vessel->operation_type }}</td>
-                    <td><span style="color:var(--admin-accent); font-weight:700;">{{ $vessel->status }}</span></td>
+                    <td><span style="color: var(--adm-primary); font-weight: 700; font-size: 0.82rem;">{{ $vessel->status }}</span></td>
                     <td>
                         <a href="{{ route('admin.vessels.edit', $vessel->id) }}" class="btn-action btn-edit"><i class="fa-solid fa-pen-to-square"></i> Düzenle</a>
                         <form action="{{ route('admin.vessels.destroy', $vessel->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Bu gemiyi silmek istiyor musunuz?');">
@@ -43,7 +43,11 @@
                         </form>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="7" style="text-align: center; color: var(--adm-muted); padding: 32px;">Henüz kayıtlı gemi bulunmuyor.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

@@ -1,42 +1,61 @@
 @extends('layouts.app')
 
-@section('title', 'Haberler & Denizcilik Duyuruları - NAVEXMAR')
+@section('title', 'Haberler & Denizcilik Duyuruları | NAVEXMAR')
+
+@php
+$newsFallbackImages = [
+    'images/news_rules.jpg',
+    'images/news_limits.jpg',
+    'images/news_green.jpg',
+];
+@endphp
 
 @section('content')
 
-    <div style="background: linear-gradient(135deg, #0F294A 0%, #1E3E62 100%); padding: 80px 0 60px; color: #FFF; text-align: center;">
-        <div class="container">
-            <div class="section-title-badge" style="background: rgba(255,255,255,0.15); color: #FFF; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-newspaper"></i> Sirkülerler & Duyurular</div>
-            <h1 class="section-heading" style="font-size: 2.8rem; color: #FFF;">Denizcilik Haberleri & Liman Sirkülerleri</h1>
-            <p class="section-description" style="margin: 0 auto; color: #E2E8F0;">Türk Boğazları mevzuat güncellemeleri, liman duyuruları ve denizcilik sektör haberleri.</p>
-        </div>
+<div class="page-hero">
+    <div class="container">
+        <div class="page-hero-badge"><i class="fa-solid fa-newspaper"></i> {{ __t('Sirkülerler & Duyurular', 'Circulars & Bulletins') }}</div>
+        <h1>{{ __t('Denizcilik Haberleri & Liman Sirkülerleri', 'Maritime News & Port Circulars') }}</h1>
+        <p>{{ __t('Türk Boğazları mevzuat güncellemeleri, liman başkanlığı duyuruları ve denizcilik sektör haberleri.', 'Turkish Straits regulation updates, port authority circulars, and maritime industry news.') }}</p>
     </div>
+</div>
 
-    <div class="container" style="padding: 80px 0;">
-        <div class="services-grid">
-            @foreach($newsList as $item)
-            <div class="white-card" style="padding: 0; overflow: hidden;">
-                <img src="{{ $item->image }}" alt="{{ $item->title }}" style="width: 100%; height: 210px; object-fit: cover;">
-                <div style="padding: 24px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <span style="background: var(--accent-soft-blue); color: var(--primary-blue); font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
-                            {{ $item->category }}
-                        </span>
-                        <span style="font-size: 0.8rem; color: var(--text-light);">{{ $item->published_at ? $item->published_at->format('d.m.Y') : '' }}</span>
+<section class="sec sec-alt">
+    <div class="container">
+        <div class="news-grid">
+            @forelse($newsList as $index => $item)
+            @php
+                $nImg = null;
+                if (!empty($item->image)) {
+                    $nImg = asset(ltrim($item->image, '/'));
+                } elseif (!empty($item->image_path)) {
+                    $nImg = Storage::url($item->image_path);
+                } else {
+                    $nImg = asset($newsFallbackImages[$index % count($newsFallbackImages)]);
+                }
+            @endphp
+            <div class="news-card">
+                <div class="news-card-img">
+                    <img src="{{ $nImg }}" alt="{{ $item->title }}" loading="lazy">
+                </div>
+                <div class="news-body">
+                    <span class="news-cat">{{ $item->category ?? 'Haber' }}</span>
+                    <a href="{{ route('news.show', $item->slug) }}" class="news-title">{{ $item->title }}</a>
+                    <p class="news-excerpt">{{ Str::limit($item->short_description ?? $item->summary ?? $item->content, 110) }}</p>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:12px; border-top:1px solid var(--border);">
+                        <span class="news-date"><i class="fa-regular fa-calendar" style="margin-right:4px;"></i>{{ $item->created_at->format('d M Y') }}</span>
+                        <a href="{{ route('news.show', $item->slug) }}" style="font-size:0.78rem; font-weight:700; color:var(--blue);">{{ __t('Devamını Oku', 'Read More') }} →</a>
                     </div>
-                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 12px;">{{ $item->title }}</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">{{ Str::limit($item->summary, 120) }}</p>
-                    <a href="{{ route('news.show', $item->slug) }}" style="color: var(--primary-blue); font-weight: 700; font-size: 0.9rem;">
-                        Devamını Oku <i class="fa-solid fa-arrow-right"></i>
-                    </a>
                 </div>
             </div>
-            @endforeach
-        </div>
-
-        <div style="margin-top: 40px;">
-            {{ $newsList->links() }}
+            @empty
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--muted);">
+                <i class="fa-solid fa-newspaper" style="font-size: 2.5rem; margin-bottom: 14px; display: block; color: var(--blue); opacity: 0.4;"></i>
+                <p>{{ __t('Kayıtlı duyuru bulunamadı.', 'No announcements found.') }}</p>
+            </div>
+            @endforelse
         </div>
     </div>
+</section>
 
 @endsection

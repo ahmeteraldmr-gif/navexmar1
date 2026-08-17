@@ -15,12 +15,20 @@ use App\Http\Controllers\Admin\NewsAdminController;
 use App\Http\Controllers\Admin\QuoteAdminController;
 use App\Http\Controllers\Admin\MessageAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
+use App\Http\Controllers\Admin\AboutAdminController;
+use App\Http\Controllers\Admin\StraitAdminController;
+use App\Http\Controllers\Admin\ProfileAdminController;
+use App\Http\Controllers\Admin\GalleryAdminController;
+
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
 | Public Routes
 |--------------------------------------------------------------------------
 */
+Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/hakkimizda', [HomeController::class, 'about'])->name('about');
 Route::get('/bogazlar-ve-limanlar', [HomeController::class, 'straitsAndPorts'])->name('straits-ports');
@@ -65,5 +73,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/settings', [SettingAdminController::class, 'index'])->name('settings.index');
         Route::post('/settings', [SettingAdminController::class, 'update'])->name('settings.update');
+
+        Route::get('/about', [AboutAdminController::class, 'index'])->name('about.index');
+        Route::post('/about', [AboutAdminController::class, 'update'])->name('about.update');
+
+        Route::get('/straits', [StraitAdminController::class, 'index'])->name('straits.index');
+        Route::post('/straits', [StraitAdminController::class, 'update'])->name('straits.update');
+
+        Route::get('/profile', [ProfileAdminController::class, 'index'])->name('profile.index');
+        Route::post('/profile', [ProfileAdminController::class, 'update'])->name('profile.update');
+        Route::post('/password', [ProfileAdminController::class, 'updatePassword'])->name('password.update');
+
+        Route::get('/gallery', [GalleryAdminController::class, 'index'])->name('gallery.index');
+        Route::post('/gallery/upload', [GalleryAdminController::class, 'upload'])->name('gallery.upload');
+        Route::delete('/gallery/{file}', [GalleryAdminController::class, 'destroy'])->name('gallery.destroy');
     });
 });

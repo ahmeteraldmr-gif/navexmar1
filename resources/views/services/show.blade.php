@@ -1,66 +1,122 @@
 @extends('layouts.app')
+@section('title', ($service->title ?? 'Hizmet Detayı') . ' | NAVEXMAR')
 
-@section('title', $service->title . ' - NAVEXMAR')
+@php
+$serviceImages = [
+    'gemi-acenteligi-liman-hizmetleri'   => 'images/svc_port_agency.jpg',
+    'turk-bogazlari-gecis-acenteligi'    => 'images/svc_strait_transit.jpg',
+    'yakit-ve-kumanya-ikmali'            => 'images/svc_bunkering.jpg',
+    'murettebat-degisimi-kara-lojistigi' => 'images/svc_crew_change.jpg',
+    'yuk-ve-konteyner-operasyonlari'     => 'images/svc_cargo.jpg',
+    'teknik-survey-bakim-onarim'         => 'images/svc_technical.jpg',
+    'teknik-ve-makine-destegi'           => 'images/svc_technical.jpg',
+];
+
+$imgSrc = null;
+if (!empty($service->image)) {
+    $imgSrc = asset(ltrim($service->image, '/'));
+} elseif (!empty($service->image_path)) {
+    $imgSrc = Storage::url($service->image_path);
+} elseif (isset($serviceImages[$service->slug])) {
+    $imgSrc = asset($serviceImages[$service->slug]);
+} else {
+    $imgSrc = asset('images/svc_port_agency.jpg');
+}
+@endphp
+
+@section('styles')
+<style>
+.svc-detail-grid { display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start; }
+.svc-main-img { border-radius: var(--r); overflow: hidden; aspect-ratio: 16/9; margin-bottom: 32px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+.svc-main-img img { width: 100%; height: 100%; object-fit: cover; }
+.svc-detail-body h2 { font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; }
+.svc-detail-body p { color: var(--muted); line-height: 1.75; margin-bottom: 16px; font-size: 0.92rem; }
+.svc-detail-body ul { list-style: none; margin-bottom: 24px; }
+.svc-detail-body ul li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.88rem; color: var(--text); padding: 9px 0; border-bottom: 1px solid var(--border);
+}
+.svc-detail-body ul li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: var(--teal); flex-shrink: 0; margin-top: 2px; }
+
+.svc-sidebar-card {
+    background: white; border: 1px solid var(--border); border-radius: var(--r); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow);
+}
+.svc-sidebar-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); font-family: 'Inter', sans-serif; }
+.svc-other-link {
+    display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-size: 0.84rem; color: var(--muted); transition: color 0.2s; text-decoration: none; font-weight: 500;
+}
+.svc-other-link:last-child { border-bottom: none; }
+.svc-other-link:hover, .svc-other-link.active { color: var(--blue); font-weight: 600; }
+.svc-other-link i { font-size: 0.7rem; }
+
+.f-contact-item { display: flex; gap: 10px; align-items: center; font-size: 0.84rem; color: var(--text); margin-bottom: 10px; }
+.f-contact-item i { color: var(--blue); width: 16px; text-align: center; }
+
+@media(max-width: 1024px){ .svc-detail-grid { grid-template-columns: 1fr; } }
+</style>
+@endsection
 
 @section('content')
-
-    <div style="background: linear-gradient(135deg, #0F294A 0%, #1E3E62 100%); padding: 80px 0 60px; color: #FFF; text-align: center;">
-        <div class="container">
-            <div class="section-title-badge" style="background: rgba(255,255,255,0.15); color: #FFF; border-color: rgba(255,255,255,0.2);"><i class="fa-solid {{ $service->icon }}"></i> NAVEXMAR Service</div>
-            <h1 class="section-heading" style="font-size: 2.8rem; color: #FFF;">{{ $service->title }}</h1>
-            <p class="section-description" style="margin: 0 auto; color: #E2E8F0;">{{ $service->summary }}</p>
-        </div>
+<div class="page-hero">
+    <div class="container">
+        <div class="page-hero-badge"><i class="fa-solid fa-anchor"></i> Hizmetler</div>
+        <h1>{{ $service->title ?? 'Hizmet Detayı' }}</h1>
+        <p>{{ $service->short_description ?? $service->summary ?? 'NAVEXMAR profesyonel denizcilik hizmetleri.' }}</p>
     </div>
+</div>
 
-    <div class="container" style="padding: 80px 0;">
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
+<section class="sec sec-alt">
+    <div class="container">
+        <div class="svc-detail-grid">
             <div>
-                <img src="{{ $service->image }}" alt="{{ $service->title }}" style="width: 100%; height: 380px; object-fit: cover; border-radius: var(--radius-lg); border: 1px solid var(--border-color); margin-bottom: 30px; box-shadow: var(--shadow-sm);">
+                <div class="svc-main-img">
+                    <img src="{{ $imgSrc }}" alt="{{ $service->title }}" loading="lazy">
+                </div>
+                <div class="svc-detail-body">
+                    {!! $service->description ?? '<p>Bu hizmet hakkında detaylı bilgi almak için bizimle iletişime geçebilirsiniz.</p>' !!}
+                </div>
+                <div style="margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <a href="{{ route('contact') }}" class="btn-primary"><i class="fa-solid fa-file-invoice-dollar"></i> {{ __t('PDA Teklif Al', 'Get PDA Quote') }}</a>
+                    <a href="{{ route('services.index') }}" class="btn-outline"><i class="fa-solid fa-arrow-left"></i> {{ __t('Tüm Hizmetler', 'All Services') }}</a>
+                </div>
+            </div>
 
-                <h2 style="font-size: 1.7rem; font-weight: 800; color: var(--primary-navy); margin-bottom: 16px;">Hizmet Kapsamı & Detaylar</h2>
-                <p style="color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; margin-bottom: 30px; white-space: pre-line;">
-                    {{ $service->description }}
-                </p>
+            <div>
+                <div class="svc-sidebar-card">
+                    <h4><i class="fa-solid fa-headset" style="color:var(--blue);margin-right:7px;"></i> {{ __t('7/24 Operasyon Destek', '24/7 Operational Support') }}</h4>
+                    <div style="font-size:0.82rem;color:var(--muted);margin-bottom:16px;line-height:1.6;">{{ __t('Bu hizmet için teklif almak veya acil operasyon bildiriminde bulunmak için:', 'To request a quote or notify emergency attendance for this service:') }}</div>
+                    <div class="f-contact-item"><i class="fa-solid fa-phone"></i><span>+90 212 444 62 83</span></div>
+                    <div class="f-contact-item"><i class="fa-solid fa-mobile-screen"></i><span>{{ __t('Acil', 'Emergency') }}: +90 532 700 90 90</span></div>
+                    <div class="f-contact-item"><i class="fa-solid fa-envelope"></i><span>ops@navexmar.com</span></div>
+                    <a href="{{ route('contact') }}" class="btn-primary" style="width:100%;justify-content:center;margin-top:14px;">
+                        <i class="fa-solid fa-envelope"></i> {{ __t('Teklif İste', 'Request Quote') }}
+                    </a>
+                </div>
 
-                @if($service->features && count($service->features) > 0)
-                <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 20px;">Öne Çıkan Özellikler & Avantajlar</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px;">
-                    @foreach($service->features as $feature)
-                    <div style="background: #FFFFFF; padding: 16px 20px; border-radius: 10px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; color: var(--text-main); font-weight: 600; box-shadow: var(--shadow-sm);">
-                        <i class="fa-solid fa-circle-check" style="color: var(--primary-blue); font-size: 1.2rem;"></i>
-                        <span>{{ $feature }}</span>
-                    </div>
+                @if(isset($services) && count($services) > 0)
+                <div class="svc-sidebar-card">
+                    <h4><i class="fa-solid fa-anchor" style="color:var(--blue);margin-right:7px;"></i> {{ __t('Diğer Hizmetlerimiz', 'Our Other Services') }}</h4>
+                    @foreach($services as $s)
+                    <a href="{{ route('services.show', $s->slug) }}" class="svc-other-link {{ $s->id == $service->id ? 'active' : '' }}">
+                        <span>{{ $s->title }}</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
                     @endforeach
                 </div>
                 @endif
-            </div>
 
-            <!-- Sidebar -->
-            <div>
-                <div class="white-card" style="margin-bottom: 30px;">
-                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 20px;">Diğer Hizmetlerimiz</h3>
-                    <ul style="list-style: none;">
-                        @foreach($allServices as $other)
-                        <li style="margin-bottom: 10px;">
-                            <a href="{{ route('services.show', $other->slug) }}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #F8FAFC; border-radius: 8px; color: var(--text-muted); font-size: 0.9rem; border: 1px solid var(--border-color);">
-                                <span><i class="fa-solid {{ $other->icon }}" style="color: var(--primary-blue); margin-right: 8px;"></i> {{ $other->title }}</span>
-                                <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i>
-                            </a>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                <div class="white-card" style="text-align: center;">
-                    <i class="fa-solid fa-headset" style="font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 14px;"></i>
-                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 8px;">Teklif Almak İster misiniz?</h3>
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Geminiz için anında CTP / Proforma maliyet analizi hazırlıyoruz.</p>
-                    <a href="{{ route('contact') }}#quote-section" class="btn-primary" style="width: 100%; justify-content: center;">
-                        <i class="fa-solid fa-calculator"></i> Teklif İste
-                    </a>
+                <div class="svc-sidebar-card">
+                    <h4><i class="fa-solid fa-certificate" style="color:var(--blue);margin-right:7px;"></i> {{ __t('Sertifikalar', 'Certifications') }}</h4>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                        <span style="background:var(--sky);color:var(--blue);padding:4px 10px;border-radius:4px;font-size:0.72rem;font-weight:600;">BIMCO Member</span>
+                        <span style="background:var(--sky);color:var(--blue);padding:4px 10px;border-radius:4px;font-size:0.72rem;font-weight:600;">FONASBA Quality</span>
+                        <span style="background:var(--sky);color:var(--blue);padding:4px 10px;border-radius:4px;font-size:0.72rem;font-weight:600;">ISO 9001:2015</span>
+                        <span style="background:var(--sky);color:var(--blue);padding:4px 10px;border-radius:4px;font-size:0.72rem;font-weight:600;">DTO {{ __t('Üyesi', 'Member') }}</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
+</section>
 @endsection

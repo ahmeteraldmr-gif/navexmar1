@@ -25,13 +25,13 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Seed Services
+        // 2. Seed Services (Every service has a UNIQUE image)
         $services = [
             [
                 'title' => 'Gemi Acenteliği & Liman Hizmetleri',
                 'slug' => 'gemi-acenteligi-liman-hizmetleri',
                 'icon' => 'fa-ship',
-                'image' => '/images/port_agency.jpg',
+                'image' => '/images/svc_port_agency.jpg',
                 'summary' => "Türkiye'nin tüm limanlarında 7/24 kesintisiz profesyonel acentelik, liman giriş-çıkış işlemleri, idari izinler ve operasyonel rehberlik.",
                 'description' => "NAVEXMAR olarak, Ambarlı, Haydarpaşa, İzmit Körfezi (Evyap, Yılport, DP World), Aliağa, Mersin, İskenderun ve Gemlik limanları başta olmak üzere Türkiye'nin tüm limanlarında armatörlerimize, kiracılarımıza ve gemi işletmecilerimize birinci sınıf acentelik hizmeti sunuyoruz. Gemi geliş öncesi bildirimlerden liman başkanlığı, sahil sağlık, gümrük ve emniyet onaylarına kadar tüm bürokratik süreçleri sıfır gecikme prensibiyle yönetiyoruz.",
                 'features' => [
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Türk Boğazları Geçiş Acenteliği',
                 'slug' => 'turk-bogazlari-gecis-acenteligi',
                 'icon' => 'fa-compass',
-                'image' => '/images/strait_transit.jpg',
+                'image' => '/images/svc_strait_transit.jpg',
                 'summary' => 'İstanbul ve Çanakkale Boğazı transit geçişlerinde SP-1 / SP-2 bildirimleri, kılavuz kaptan organizasyonu ve kesintisiz geçiş yönetimi.',
                 'description' => "Türk Boğazları (İstanbul ve Çanakkale Boğazı), dünyanın en yoğun, dar ve zorlu deniz yollarından biridir. NAVEXMAR, Boğazlardan transit geçiş yapacak tüm gemi tiplerine (Konteyner, Tanker, Dökme Yük, LPG/LNG) kılavuzluk ve acentelik desteği sağlar. VTS (Deniz Trafik Yönetimi) ile tam entegre sistemimiz sayesinde geminizin Boğaz giriş demir yerlerinden geçiş rotasına kadar olan tüm süreci 7/24 canlı takip ediyoruz.",
                 'features' => [
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Yakıt (Bunkering) & Kumanya İkmali',
                 'slug' => 'yakit-ve-kumanya-ikmali',
                 'icon' => 'fa-gas-pump',
-                'image' => '/images/bunkering.jpg',
+                'image' => '/images/svc_bunkering.jpg',
                 'summary' => 'ISO 8217 standartlarına uygun VLSFO, MGO, Madeni yağ ikmalleri ile taze kumanya ve teknik malzeme tedariği.',
                 'description' => "Gemi yakıt ikmali (Bunkering) ve kumanya tedariğinde zamanlama ve ürün kalitesi esastır. NAVEXMAR, İstanbul ve Çanakkale demir sahalarında ile tüm ana limanlarda lisanslı barçlar vasıtasıyla kesintisiz yakıt ve madeni yağ teslimatları organize eder. Ayrıca taze gıda, içme suyu, güverte ve makine sarf malzemeleri geminize eksiksiz ulaştırılır.",
                 'features' => [
@@ -79,7 +79,7 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Mürettebat Değişimi & Kara Lojistiği',
                 'slug' => 'murettebat-degisimi-kara-lojistigi',
                 'icon' => 'fa-users-gear',
-                'image' => '/images/crew_change.jpg',
+                'image' => '/images/svc_crew_change.jpg',
                 'summary' => 'Vize işlemleri, VIP havalimanı transferleri, otel konaklamaları, tıbbi destek ve 7/24 acente botu servisi.',
                 'description' => "Gemi adamlarının değişimi ve kara lojistiği acenteliğin en hassas insan odaklı süreçlerinden biridir. NAVEXMAR, İstanbul Havalimanı (IST) ve Sabiha Gökçen (SAW) başta olmak üzere Türkiye geneli havalimanlarında karşılama, OKTB vize onayları, lüks araç transferleri, otel konaklamaları ve demir alanında acente botu transferleri ile personelinizin emniyetle değişimini gerçekleştirir.",
                 'features' => [
@@ -95,7 +95,7 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Yük & Konteyner Operasyonları',
                 'slug' => 'yuk-ve-konteyner-operasyonlari',
                 'icon' => 'fa-boxes-stacked',
-                'image' => '/images/hero_ship.jpg',
+                'image' => '/images/svc_cargo.jpg',
                 'summary' => 'Proje kargo, dökme yük, konteyner tahliye/yükleme, kargo manifestosu, ordino ve gümrük desteği.',
                 'description' => "Taşınan navlunun güvenliği, doğru elleçlenmesi ve zamanında teslimatı için charterer ve armatörlerimiz adına uçtan uca lojistik destek sağlıyoruz. Proje kargoları, gabari dışı ağır yükler ve dökme maden/tahıl yüklemelerinde uzman operasyon ekibimiz saha gözetimi gerçekleştirir.",
                 'features' => [
@@ -111,7 +111,7 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Teknik Sörvey & Bakım Onarım',
                 'slug' => 'teknik-survey-bakim-onarim',
                 'icon' => 'fa-wrench',
-                'image' => '/images/technical_support.jpg',
+                'image' => '/images/svc_technical.jpg',
                 'summary' => 'Sualtı dalgıç temizliği, klas sörveyör koordinasyonu, yedek parça gümrüklemesi ve tersane temsilciliği.',
                 'description' => "Geminizin teknik aksaklıklarında veya periyodik bakım süreçlerinde sertifikalı uzman sualtı dalgıç ekipleri, makine mühendisleri ve klas sörveyörleri ile en hızlı çözümleri üretiyoruz. Yalova ve Tuzla tersanelerinde havuzlama (drydock) ve tamir aşamalarında armatör temsilciliği yürütüyoruz.",
                 'features' => [
@@ -129,7 +129,7 @@ class DatabaseSeeder extends Seeder
             Service::updateOrCreate(['slug' => $serviceData['slug']], $serviceData);
         }
 
-        // 3. Seed Vessels
+        // 3. Seed Vessels (Every vessel has a UNIQUE image)
         $vessels = [
             [
                 'name' => 'MV Bosphorus Express',
@@ -138,7 +138,7 @@ class DatabaseSeeder extends Seeder
                 'imo_number' => 9845123,
                 'grt' => 45200,
                 'dwt' => 58000,
-                'image' => '/images/hero_ship.jpg',
+                'image' => '/images/vsl_container.jpg',
                 'last_port' => 'Ambarlı Container Terminal',
                 'operation_type' => 'Liman İkmali & Acentelik',
                 'status' => 'Tamamlandı',
@@ -151,7 +151,7 @@ class DatabaseSeeder extends Seeder
                 'imo_number' => 9712044,
                 'grt' => 82000,
                 'dwt' => 115000,
-                'image' => '/images/strait_transit.jpg',
+                'image' => '/images/vsl_tanker.jpg',
                 'last_port' => 'İstanbul Boğazı Kuzey Demir',
                 'operation_type' => 'Boğaz Geçişi & Bunkering',
                 'status' => 'Devam Ediyor',
@@ -164,7 +164,7 @@ class DatabaseSeeder extends Seeder
                 'imo_number' => 9631109,
                 'grt' => 34500,
                 'dwt' => 56000,
-                'image' => '/images/port_agency.jpg',
+                'image' => '/images/vsl_bulk.jpg',
                 'last_port' => 'İzmit Körfezi Yılport',
                 'operation_type' => 'Tahliye & Mürettebat Değişimi',
                 'status' => 'Tamamlandı',
@@ -177,11 +177,11 @@ class DatabaseSeeder extends Seeder
                 'imo_number' => 9554321,
                 'grt' => 28900,
                 'dwt' => 18000,
-                'image' => '/images/crew_change.jpg',
+                'image' => '/images/vsl_roro.jpg',
                 'last_port' => 'Pendik Ro-Ro Limanı',
-                'operation_type' => 'Araç Tahliye Acenteliği',
+                'operation_type' => 'Araç Yükleme & Gümrük',
                 'status' => 'Tamamlandı',
-                'details' => '650 adet sıfır kilometre ticari araç tahliyesi ve liman gümrük belgeleri onaylandı.',
+                'details' => '420 adet ticari araç ve 85 treyler yüklemesi sıfır hasar kaydıyla tamamlandı.',
             ],
             [
                 'name' => 'MY Horizon Luxury',
@@ -190,7 +190,7 @@ class DatabaseSeeder extends Seeder
                 'imo_number' => 9918765,
                 'grt' => 2400,
                 'dwt' => 800,
-                'image' => '/images/bunkering.jpg',
+                'image' => '/images/tugboat_1.jpg',
                 'last_port' => 'Ataköy Marina & Boğaz Turu',
                 'operation_type' => 'Özel Yat Acenteliği',
                 'status' => 'Tamamlandı',
@@ -202,13 +202,13 @@ class DatabaseSeeder extends Seeder
             Vessel::updateOrCreate(['imo_number' => $vesselData['imo_number']], $vesselData);
         }
 
-        // 4. Seed News
+        // 4. Seed News (Every news has a UNIQUE image)
         $newsArticles = [
             [
                 'title' => 'Türk Boğazları Deniz Trafik Düzeni Tüzüğü Güncellendi',
                 'slug' => 'turk-bogazlari-deniz-trafik-duzeni-tuzugu-guncellendi',
                 'category' => 'Denizcilik Sirküleri',
-                'image' => '/images/strait_transit.jpg',
+                'image' => '/images/news_rules.jpg',
                 'summary' => 'Ulaştırma ve Altyapı Bakanlığı tarafından yayınlanan yeni tüzük ile İstanbul ve Çanakkale boğazı geçiş kurallarında güncellemeler yapıldı.',
                 'content' => "Kıyı Emniyeti Genel Müdürlüğü ve Ulaştırma Bakanlığı kararı uyarınca Türk Boğazları Deniz Trafik Düzeni Yönetmeliği'nde yapılan son değişiklikler yürürlüğe girdi. Yeni düzenlemeye göre 200 metre üzerindeki tehlikeli madde taşıyan tankerlerin gece geçiş kısıtlamaları ve kılavuz kaptan alma zorunlulukları yeniden yapılandırıldı. NAVEXMAR olarak tüm armatör ve kiracılarımıza SP-1 bildirim süresi ve VHF kanal takip prosedürlerine dair bilgilendirme sirkülerimizi ilettik.",
                 'author' => 'NAVEXMAR Mevzuat Departmanı',
@@ -218,24 +218,25 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Ambarlı Liman Başkanlığı Su Çekimi (Draft) Limitleri Açıklandı',
                 'slug' => 'ambarli-liman-baskanligi-su-cekimi-draft-limitleri',
-                'category' => 'Liman Duyurusu',
-                'image' => '/images/port_agency.jpg',
-                'summary' => 'Marmara Ereğlisi ve Ambarlı liman tesisleri yanaşma dökme yük ve konteyner gemileri için max draft çizelgesi yenilendi.',
-                'content' => "Ambarlı Liman Kompleksi içerisindeki Marport, Kumport ve Mardaş terminallerine yanaşacak ultra büyük konteyner gemileri (ULCV) için maksimum emniyetli su çekimi (maximum safe draft) limitleri güncellenmiştir. Yan yana yanaşma protokolleri ve batimetrik harita verilerine göre uygulanan yeni derinlik toleransları acentelik temsilcilerimiz tarafından 7/24 izlenmektedir.",
-                'author' => 'NAVEXMAR Liman Operasyon',
+                'category' => 'Liman Duyuruları',
+                'image' => '/images/news_limits.jpg',
+                'summary' => 'Marport ve Kumport yanaşma rıhtımlarında mevsimsel dip çamuru ve derinlik güncellemelerine ilişkin yeni maksimum azami su çekim cetveli.',
+                'content' => "Ambarlı Liman Başkanlığı tarafından yayımlanan 2026/04 sayılı sirküler ile Ambarlı Liman Kompleksi bünyesindeki Marport, Kumport ve Mardaş rıhtımlarının azami yanaşma draft limitleri yeniden belirlenmiştir. Buna göre 1. Rıhtım için azami su çekimi 14.50 metreye çıkarılmıştır. Gemilerinizin fribort ve draft hesaplamalarında güncel cetvele dikkat edilmesi rica olunur.",
+                'author' => 'NAVEXMAR Operasyon Masası',
                 'is_published' => true,
                 'published_at' => now()->subDays(5),
             ],
             [
-                'title' => 'NAVEXMAR Yeşil Denizcilik ve Karbon Emisyon Danışmanlığını Başlattı',
+                'title' => 'NAVEXMAR Yeşil Denizcilik ve Karbon Emisyon Danışmanlığı Hizmete Girdi',
                 'slug' => 'navexmar-yesil-denizcilik-ve-karbon-emisyon-danismanligi',
-                'category' => 'Kurumsal Haber',
-                'image' => '/images/about_corporate.jpg',
-                'summary' => 'IMO CII ve EEXI regülasyonları kapsamında Türk limanlarına uğrak yapan gemilere karbon salınım raporlama desteği sunuyoruz.',
-                'content' => "NAVEXMAR Denizcilik, sürdürülebilir mavi ekonomi vizyonu çerçevesinde denizcilik sektörüne yenilikçi bir hizmet daha kazandırdı. IMO 2026 Sera Gazı Stratejisi standartlarında, uğrak yapan gemilerimizin yakıt tüketimi, liman bekleme emisyonları ve çevre mevzuatı raporlamaları uzman acenta kadromuzca dijitalleştirildi.",
-                'author' => 'NAVEXMAR Basın Merkezi',
+                'category' => 'Sektörel Gelişmeler',
+                'image' => '/images/news_green.jpg',
+                'summary' => 'IMO CII ve EU ETS karbon düzenlemeleri kapsamında gemilerinizin liman emisyon hesaplamaları ve sürdürülebilirlik raporlaması.',
+                'description' => 'Avrupa Birliği Emisyon Ticaret Sistemi (EU ETS) ve IMO Karbon Yoğunluğu Göstergesi (CII) standartlarına uyum sürecinde armatörlerimize teknik danışmanlık hizmeti sunmaya başladık.',
+                'content' => "Uluslararası Denizcilik Örgütü (IMO) ve Avrupa Birliği'nin sıfır karbon hedefleri doğrultusunda denizcilik sektörü köklü bir değişimden geçmektedir. NAVEXMAR Yeşil Denizcilik Masası, Türk Boğazları geçişi ve Türkiye limanları uğraklarında gemilerinizin yakıt tüketimi, emisyon salınımı ve biyolojik arıtma sistemlerinin uluslararası standartlara uyumunu kontrol ederek yeşil sertifikasyon sürecine katkı sağlamaktadır.",
+                'author' => 'NAVEXMAR Teknik Direktörlük',
                 'is_published' => true,
-                'published_at' => now()->subDays(8),
+                'published_at' => now()->subDays(10),
             ],
         ];
 
@@ -245,19 +246,17 @@ class DatabaseSeeder extends Seeder
 
         // 5. Seed Site Settings
         $settings = [
+            'site_name' => 'NAVEXMAR Maritime Agency',
             'phone' => '+90 (212) 444 62 83',
             'mobile' => '+90 (532) 700 90 90',
             'email' => 'agency@navexmar.com',
-            'address' => 'Marport Plaza Kat:8 No:82, Ambarlı Liman Yolu, Avcılar / İstanbul - Türkiye',
-            'working_hours' => '7 Gün 24 Saat Vardiyalı Kesintisiz Operasyon',
-            'facebook' => 'https://facebook.com/navexmar',
-            'linkedin' => 'https://linkedin.com/company/navexmar',
-            'instagram' => 'https://instagram.com/navexmar',
-            'about_short' => 'NAVEXMAR, Türk Boğazları ve tüm Türkiye limanlarında armatör, kiracı ve gemi işletmecilerine uluslararası standartlarda 7/24 profesyonel gemi acenteliği, ikmal ve lojistik çözümleri sunmaktadır.',
+            'ops_email' => 'ops@navexmar.com',
+            'address' => 'Marport Plaza Kat:8, Ambarlı Liman Yolu, Avcılar / İstanbul',
+            'about_short' => 'NAVEXMAR, Türk Boğazları ve tüm Türkiye limanlarında 7/24 uluslararası gemi acenteliği, ikmal, teknik destek ve lojistik hizmetleri vermektedir.',
         ];
 
-        foreach ($settings as $key => $value) {
-            SiteSetting::set($key, $value);
+        foreach ($settings as $key => $val) {
+            SiteSetting::updateOrCreate(['key' => $key], ['value' => $val]);
         }
     }
 }
